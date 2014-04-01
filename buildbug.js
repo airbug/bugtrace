@@ -48,7 +48,7 @@ buildProperties({
         packageJson: {
             name: "bugtrace",
             version: version,
-            description: "Declarative async flow control for object oriented JavaScript provided by the bugtrace library",
+            description: "Async tracing tool for JavaScript making it easy to back trace through async breaks in JS code",
             main: "./scripts/bugtrace-node-module.js",
             dependencies: dependencies,
             author: "Brian Neisler <brian@airbug.com>",
