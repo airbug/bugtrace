@@ -324,11 +324,10 @@ BugTrace.instance = null;
 
 
 //-------------------------------------------------------------------------------
-// Private Static Methods
+// Public Static Methods
 //-------------------------------------------------------------------------------
 
 /**
- * @private
  * @return {BugTrace}
  */
 BugTrace.getInstance = function() {
