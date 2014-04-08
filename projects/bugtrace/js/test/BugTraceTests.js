@@ -7,7 +7,7 @@
 //@Require('Class')
 //@Require('bugmeta.BugMeta')
 //@Require('bugtrace.BugTrace')
-//@Require('bugunit-annotate.TestAnnotation')
+//@Require('bugunit.TestAnnotation')
 
 
 //-------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ var bugpack         = require('bugpack').context();
 var Class           = bugpack.require('Class');
 var BugMeta         = bugpack.require('bugmeta.BugMeta');
 var BugTrace        = bugpack.require('bugtrace.BugTrace');
-var TestAnnotation  = bugpack.require('bugunit-annotate.TestAnnotation');
+var TestAnnotation  = bugpack.require('bugunit.TestAnnotation');
 
 
 //-------------------------------------------------------------------------------
