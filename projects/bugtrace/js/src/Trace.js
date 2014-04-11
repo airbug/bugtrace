@@ -9,98 +9,98 @@
 
 
 //-------------------------------------------------------------------------------
-// Common Modules
+// Context
 //-------------------------------------------------------------------------------
 
-var bugpack             = require('bugpack').context();
-
-
-//-------------------------------------------------------------------------------
-// BugPack
-//-------------------------------------------------------------------------------
-
-var Class               = bugpack.require('Class');
-var Obj                 = bugpack.require('Obj');
-
-
-//-------------------------------------------------------------------------------
-// Declare Class
-//-------------------------------------------------------------------------------
-
-/**
- * @class
- * @extends {Obj}
- */
-var Trace = Class.extend(Obj, {
+require('bugpack').context("*", function(bugpack) {
 
     //-------------------------------------------------------------------------------
-    // Constructor
+    // BugPack
+    //-------------------------------------------------------------------------------
+
+    var Class               = bugpack.require('Class');
+    var Obj                 = bugpack.require('Obj');
+
+
+    //-------------------------------------------------------------------------------
+    // Declare Class
     //-------------------------------------------------------------------------------
 
     /**
-     * @constructs
-     * @param {string} stack
-     * @param {string} name
+     * @class
+     * @extends {Obj}
      */
-    _constructor: function(stack, name) {
-
-        this._super();
-
+    var Trace = Class.extend(Obj, {
 
         //-------------------------------------------------------------------------------
-        // Private Properties
+        // Constructor
         //-------------------------------------------------------------------------------
 
         /**
-         * @private
-         * @type {string}
+         * @constructs
+         * @param {string} stack
+         * @param {string} name
          */
-        this.name       = name;
+        _constructor: function(stack, name) {
+
+            this._super();
+
+
+            //-------------------------------------------------------------------------------
+            // Private Properties
+            //-------------------------------------------------------------------------------
+
+            /**
+             * @private
+             * @type {string}
+             */
+            this.name       = name;
+
+            /**
+             * @private
+             * @type {string}
+             */
+            this.stack      = stack;
+        },
+
+
+        //-------------------------------------------------------------------------------
+        // Getters and Setters
+        //-------------------------------------------------------------------------------
 
         /**
-         * @private
-         * @type {string}
+         * @return {string}
          */
-        this.stack      = stack;
-    },
+        getName: function() {
+            return this.name;
+        },
+
+        /**
+         * @param {string} name
+         */
+        setName: function(name) {
+            this.name = name;
+        },
+
+        /**
+         * @return {string}
+         */
+        getStack: function() {
+            return this.stack;
+        },
+
+        /**
+         * @param {string} stack
+         */
+        setStack: function(stack) {
+            this.stack = stack;
+        }
+    });
 
 
     //-------------------------------------------------------------------------------
-    // Getters and Setters
+    // Export
     //-------------------------------------------------------------------------------
 
-    /**
-     * @return {string}
-     */
-    getName: function() {
-        return this.name;
-    },
-
-    /**
-     * @param {string} name
-     */
-    setName: function(name) {
-        this.name = name;
-    },
-
-    /**
-     * @return {string}
-     */
-    getStack: function() {
-        return this.stack;
-    },
-
-    /**
-     * @param {string} stack
-     */
-    setStack: function(stack) {
-        this.stack = stack;
-    }
+    bugpack.export('bugtrace.Trace', Trace);
 });
-
-
-//-------------------------------------------------------------------------------
-// Export
-//-------------------------------------------------------------------------------
-
-bugpack.export('bugtrace.Trace', Trace);
