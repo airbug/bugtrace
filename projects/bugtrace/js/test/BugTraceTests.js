@@ -11,31 +11,30 @@
 
 
 //-------------------------------------------------------------------------------
-// Common Modules
+// Context
 //-------------------------------------------------------------------------------
 
-var bugpack         = require('bugpack').context();
+require('bugpack').context("*", function(bugpack) {
+
+    //-------------------------------------------------------------------------------
+    // BugPack
+    //-------------------------------------------------------------------------------
+
+    var Class           = bugpack.require('Class');
+    var BugMeta         = bugpack.require('bugmeta.BugMeta');
+    var BugTrace        = bugpack.require('bugtrace.BugTrace');
+    var TestAnnotation  = bugpack.require('bugunit.TestAnnotation');
 
 
-//-------------------------------------------------------------------------------
-// BugPack
-//-------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------
+    // Simplify References
+    //-------------------------------------------------------------------------------
 
-var Class           = bugpack.require('Class');
-var BugMeta         = bugpack.require('bugmeta.BugMeta');
-var BugTrace        = bugpack.require('bugtrace.BugTrace');
-var TestAnnotation  = bugpack.require('bugunit.TestAnnotation');
+    var bugmeta         = BugMeta.context();
+    var test            = TestAnnotation.test;
 
 
-//-------------------------------------------------------------------------------
-// Simplify References
-//-------------------------------------------------------------------------------
-
-var bugmeta         = BugMeta.context();
-var test            = TestAnnotation.test;
-
-
-//-------------------------------------------------------------------------------
-// Declare Tests
-//-------------------------------------------------------------------------------
-
+    //-------------------------------------------------------------------------------
+    // Declare Tests
+    //-------------------------------------------------------------------------------
+});

@@ -46,6 +46,9 @@ require('bugpack').context("*", function(bugpack) {
      */
     var BugTrace = Class.extend(Obj, {
 
+        _name: "bugtrace.BugTrace",
+
+
         //-------------------------------------------------------------------------------
         // Constructor
         //-------------------------------------------------------------------------------

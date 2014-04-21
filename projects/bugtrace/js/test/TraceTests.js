@@ -12,77 +12,76 @@
 
 
 //-------------------------------------------------------------------------------
-// Common Modules
+// Context
 //-------------------------------------------------------------------------------
 
-var bugpack                 = require('bugpack').context();
+require('bugpack').context("*", function(bugpack) {
+
+    //-------------------------------------------------------------------------------
+    // BugPack
+    //-------------------------------------------------------------------------------
+
+    var Class                   = bugpack.require('Class');
+    var BugMeta                 = bugpack.require('bugmeta.BugMeta');
+    var Trace                   = bugpack.require('bugtrace.Trace');
+    var TestAnnotation          = bugpack.require('bugunit.TestAnnotation');
+    var BugYarn                 = bugpack.require('bugyarn.BugYarn');
 
 
-//-------------------------------------------------------------------------------
-// BugPack
-//-------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------
+    // Simplify References
+    //-------------------------------------------------------------------------------
 
-var Class                   = bugpack.require('Class');
-var BugMeta                 = bugpack.require('bugmeta.BugMeta');
-var Trace                   = bugpack.require('bugtrace.Trace');
-var TestAnnotation          = bugpack.require('bugunit.TestAnnotation');
-var BugYarn                 = bugpack.require('bugyarn.BugYarn');
+    var bugmeta                 = BugMeta.context();
+    var bugyarn                 = BugYarn.context();
+    var test                    = TestAnnotation.test;
 
 
-//-------------------------------------------------------------------------------
-// Simplify References
-//-------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------
+    // BugYarn
+    //-------------------------------------------------------------------------------
 
-var bugmeta                 = BugMeta.context();
-var bugyarn                 = BugYarn.context();
-var test                    = TestAnnotation.test;
+    bugyarn.registerWeaver("testTrace", function(yarn, args) {
+        return new Trace(args[0], args[1]);
+    });
 
 
-//-------------------------------------------------------------------------------
-// BugYarn
-//-------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------
+    // Declare Tests
+    //-------------------------------------------------------------------------------
 
-bugyarn.registerWeaver("testTrace", function(yarn, args) {
-    return new Trace(args[0], args[1]);
+    var traceInstantiationTest = {
+
+        //-------------------------------------------------------------------------------
+        // Setup Test
+        //-------------------------------------------------------------------------------
+
+        setup: function(test) {
+            this.testName   = "testName";
+            this.testStack  = "testStack";
+            this.testTrace  = new Trace(this.testStack, this.testName);
+        },
+
+        //-------------------------------------------------------------------------------
+        // Run Test
+        //-------------------------------------------------------------------------------
+
+        test: function(test) {
+            test.assertTrue(Class.doesExtend(this.testTrace, Trace),
+                "Assert instance of Trace");
+            test.assertEqual(this.testTrace.getName(), this.testName,
+                "Assert .name was set correctly");
+            test.assertEqual(this.testTrace.getStack(), this.testStack,
+                "Assert .stack was set correctly");
+        }
+    };
+
+
+    //-------------------------------------------------------------------------------
+    // BugMeta
+    //-------------------------------------------------------------------------------
+
+    bugmeta.annotate(traceInstantiationTest).with(
+        test().name("Trace - instantiation test")
+    );
 });
-
-
-//-------------------------------------------------------------------------------
-// Declare Tests
-//-------------------------------------------------------------------------------
-
-
-var traceInstantiationTest = {
-
-    //-------------------------------------------------------------------------------
-    // Setup Test
-    //-------------------------------------------------------------------------------
-
-    setup: function(test) {
-        this.testName   = "testName";
-        this.testStack  = "testStack";
-        this.testTrace  = new Trace(this.testStack, this.testName);
-    },
-
-    //-------------------------------------------------------------------------------
-    // Run Test
-    //-------------------------------------------------------------------------------
-
-    test: function(test) {
-        test.assertTrue(Class.doesExtend(this.testTrace, Trace),
-            "Assert instance of Trace");
-        test.assertEqual(this.testTrace.getName(), this.testName,
-            "Assert .name was set correctly");
-        test.assertEqual(this.testTrace.getStack(), this.testStack,
-            "Assert .stack was set correctly");
-    }
-};
-
-
-//-------------------------------------------------------------------------------
-// BugMeta
-//-------------------------------------------------------------------------------
-
-bugmeta.annotate(traceInstantiationTest).with(
-    test().name("Trace - instantiation test")
-);
