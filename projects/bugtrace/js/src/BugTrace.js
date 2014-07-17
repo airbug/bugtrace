@@ -14,7 +14,7 @@
 //@Require('Class')
 //@Require('Obj')
 //@Require('Proxy')
-//@Require('Trace')
+//@Require('Tracer')
 
 
 //-------------------------------------------------------------------------------
