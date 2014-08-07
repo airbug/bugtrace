@@ -42,6 +42,7 @@ var nodejs              = enableModule('nodejs');
 // Values
 //-------------------------------------------------------------------------------
 
+var name                = "bugtrace";
 var version             = "0.1.5";
 var dependencies        = {
     bugpack: "0.1.14"
@@ -53,12 +54,17 @@ var dependencies        = {
 //-------------------------------------------------------------------------------
 
 buildProperties({
+    name: name,
+    version: version
+});
+
+buildProperties({
     node: {
         packageJson: {
-            name: "bugtrace",
-            version: version,
+            name: "{{name}}",
+            version: "{{version}}",
             description: "Async tracing tool for JavaScript making it easy to back trace through async breaks in JS code",
-            main: "./scripts/bugtrace-node-module.js",
+            main: "./scripts/bugtrace-node.js",
             dependencies: dependencies,
             author: "Brian Neisler <brian@airbug.com>",
             repository: {
@@ -77,7 +83,7 @@ buildProperties({
         },
         sourcePaths: [
             "../bugcore/libraries/bugcore/js/src",
-            "./projects/bugtrace/js/src"
+            "./libraries/bugtrace/js/src"
         ],
         scriptPaths: [
             "./projects/bugtrace-node/js/scripts"
@@ -85,29 +91,29 @@ buildProperties({
         readmePath: "./README.md",
         unitTest: {
             packageJson: {
-                name: "bugtrace-test",
-                version: version,
-                main: "./scripts/bugtrace-node-module.js",
+                name: "{{name}}-test",
+                version: "{{version}}",
+                main: "./scripts/bugtrace-node.js",
                 dependencies: dependencies,
                 scripts: {
-                    test: "./scripts/bugunit-run.js"
+                    test: "node ./test/scripts/bugunit-run.js"
                 }
             },
             sourcePaths: [
-                "../buganno/projects/buganno/js/src",
-                "../bugfs/projects/bugfs/js/src",
-                "../bugmeta/projects/bugmeta/js/src",
-                "../bugunit/projects/bugdouble/js/src",
-                "../bugunit/projects/bugunit/js/src",
+                "../buganno/libraries/buganno/js/src",
+                "../bugdouble/libraries/bugdouble/js/src",
+                "../bugfs/libraries/bugfs/js/src",
+                "../bugmeta/libraries/bugmeta/js/src",
+                "../bugunit/libraries/bugunit/js/src",
                 "../bugyarn/libraries/bugyarn/js/src"
             ],
             scriptPaths: [
-                "../buganno/projects/buganno/js/scripts",
-                "../bugunit/projects/bugunit/js/scripts"
+                "../buganno/libraries/buganno/js/scripts",
+                "../bugunit/libraries/bugunit/js/scripts"
             ],
             testPaths: [
                 "../bugcore/libraries/bugcore/js/test",
-                "./projects/bugtrace/js/test"
+                "./libraries/bugtrace/js/test"
             ]
         }
     },
@@ -121,7 +127,7 @@ buildProperties({
             ".*\\.git$",
             ".*node_modules$"
         ]
-    },
+    }
 });
 
 
